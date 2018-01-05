@@ -1,7 +1,11 @@
 (function () {
   $.mockAPI = {
-    get : function (path, callback) {
-      if (path == "/api/triggers") {
+    get : function (path, data, callback) {
+      if (callback == undefined && typeof data == "function") {
+        callback = data;
+      }
+
+      if (path == "/api/triggerServices") {
         callback([{
           id : 1,
           title : "Twitter",
@@ -43,6 +47,22 @@
           title : "Tumblr",
           description : "Tumblr is a blogging platform that allows users to post text, images, videos, links, quotes, and audio."
         }]);
+      } else if (path = "/api/triggers") {
+
+        if (data && data.trigger_service_id == 3) { // RSS
+          callback([{
+            id : 1,
+            title : "New Feed Item",
+            description : "When new feed appeared in RSS feed"
+          }, {
+            id : 2,
+            title : "New Feed Item Matches",
+            description : "When new feed matches specification"
+          }]);
+        } else {
+          callback([]);
+        }
+
       }
     }
   };  

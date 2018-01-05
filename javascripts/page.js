@@ -2,15 +2,15 @@ $(document).ready(function () {
 
   // imagine that we will have to query a list of available trigger services
 
-  $.mockAPI.get("/api/triggers", function (triggers) {
-    console.log(triggers);
-    $.defaultTracker.set("triggerSelections", triggers);
+  $.mockAPI.get("/api/triggerServices", function (triggerServices) {
+    console.log(triggerServices);
+    $.defaultTracker.set("triggerServices", triggerServices);
   });
 
 });
 
 $.defaultTracker.listen({
-  "triggerSelections[track]" : function (oldValue, newValue) {
+  "triggerServices[track]" : function (oldValue, newValue) {
     console.log("selections ", newValue);
 
     // when there are available selections, allow enable this button
@@ -22,6 +22,27 @@ $.defaultTracker.listen({
     $('.cc-trigger-service-name').text(newValue.title);
     $('.cc-this-was-selected').css('display', newValue ? "block" : "none");
 
+    $.mockAPI.get("/api/triggers", { trigger_service_id : newValue.id }, function (triggers) {
+      $.defaultTracker.set("triggers", triggers);
+    });
+  },
+  "triggers[track]" : function (oldValue, newValue) {
+    if (newValue) {
+      // hide all selections
+      $('.cc-trigger-selection').children().css('display', 'none');      
+      if (newValue.length > 0) {
+        $('.cc-trigger-selection').children('.cc-no-selection').css('display', 'none');
+      }
+      for (var i = 0, len = newValue.length; i < len; i++) {
+        var node = $('.cc-item[triggerid="'+newValue[i].id+'"]');
+        node.parent().css('display', 'block'); // show selection
+      }
+    } 
+
+    if (!newValue || newValue.length == 0) {
+      $('.cc-trigger-selection').children().css('display', 'none');
+      $('.cc-trigger-selection').children('.cc-no-selection').css('display', 'block');
+    }
   }
 });
 
@@ -63,7 +84,7 @@ $.act({
   // 
   "choose-this[click]" : function (el, ev) {
     var serviceID = parseInt(el.attr('serviceid')||"0");
-    var triggers = $.defaultTracker.get("triggerSelections");
+    var triggers = $.defaultTracker.get("triggerServices");
 
     // find the trigger
     for (var i = 0, len = triggers.length; i < len; i++) {
