@@ -22,9 +22,20 @@ $.defaultTracker.listen({
     $('.cc-trigger-service-name').text(newValue.title);
     $('.cc-this-was-selected').css('display', newValue ? "block" : "none");
 
+    $.defaultTracker.set("triggers", []);
+    $.defaultTracker.set("selectedTrigger", null);
+
     $.mockAPI.get("/api/triggers", { trigger_service_id : newValue.id }, function (triggers) {
       $.defaultTracker.set("triggers", triggers);
     });
+
+    // load corresponding action services
+    // 
+    $.mockAPI.get("/api/actionServices", { trigger_service_id : newValue.id }, function (actionServices) {
+      console.log('action services ', actionServices);
+      $.defaultTracker.set("actionServices", actionServices);
+    });
+
   },
   "triggers[track]" : function (oldValue, newValue) {
     if (newValue) {
@@ -49,17 +60,28 @@ $.defaultTracker.listen({
   },
   "selectedTrigger[track]" : function (oldValue, newValue) {
     $('.cc-trigger-selected').css('display', newValue && newValue.id == 1 ? 'block' : 'none');
-    $('.cc-trigger-no-implementation').css('display', !newValue || newValue.id != 1 ? 'block' : 'none');
+    $('.cc-trigger-no-implementation').css('display', $.defaultTracker.get("triggers").length > 0 && (!newValue || newValue.id != 1) ? 'block' : 'none');
 
     $('.cc-choose-trigger-button').css('display', newValue ? 'none' : 'block');
-    $('.cc-choose-trigger-label').css('display', newValue ? 'none' : 'block');
+    $('.cc-choose-trigger-label').css('display', newValue ? 'none' : 'inline-block');
+
+    // dumb way to reset
+    $('.cc-trigger-selected').find('input').val('');
+
+    if (!newValue) {
+      $.defaultTracker.set("isTriggerSceneDone", false);
+      $.defaultTracker.set("isValidTrigger", false);
+    }
   },
+
   "triggerAttributes[track]" : function (oldValue, newValue) {
     $.defaultTracker.set("isValidTrigger", newValue.address);
   },
+
   "isValidTrigger[track]" : function (oldValue, newValue) {
     $('.cc-continue-button').css('display', newValue ? 'inline-block' : 'none');
   },
+
   // if set to true, conclude customization of trigger 
   //
   "isTriggerSceneDone[track]" : function (oldValue, newValue) {
@@ -72,7 +94,114 @@ $.defaultTracker.listen({
     } else {
       $.defaultTracker.check("selectedTrigger");
     }
-  }
+
+    $('.cc-continue-with-action').css('display', $.defaultTracker.get("isTriggerSceneDone") && !$.defaultTracker.get("selectedActionService") ? 'block' : 'none');
+  },
+
+  "actionServices[track]" : function (oldValue, newValue) {
+    $('.cc-that-button')[newValue && newValue.length > 0 ? "removeClass" : "addClass"]("disabled");
+
+    if (newValue) {
+      // we skip the trigger selection HTML rendering, let's assume it's already done by templating engine
+      // right now it's hardcoded
+
+      // hide all selections
+      $('.cc-that-selection').children().css('display', 'none');      
+      if (newValue.length > 0) {
+        $('.cc-that-selection').children('.cc-no-selection').css('display', 'none');
+      }
+      for (var i = 0, len = newValue.length; i < len; i++) {
+        var node = $('.cc-item[serviceid="'+newValue[i].id+'"]');
+        node.parent().css('display', 'block'); // show selection
+      }
+    } 
+
+    if (!newValue || newValue.length == 0) {
+      $('.cc-that-selection').children().css('display', 'none');
+      $('.cc-that-selection').children('.cc-no-selection').css('display', 'block');
+    }
+  },
+  
+  // when action is selected, e.g. email action
+  //  
+  "selectedActionService[track]" : function (oldValue, newValue) {
+    // when this trigger service get selected, e.g. RSS
+
+    $('.cc-action-service-name').text(newValue.title);
+    $('.cc-that-was-selected').css('display', newValue ? "block" : "none");
+
+    $.defaultTracker.set("actions", []);
+    $.defaultTracker.set("selectedAction", null);
+
+    $.mockAPI.get("/api/actions", { action_service_id : newValue.id }, function (actions) {
+      $.defaultTracker.set("actions", actions);
+    });
+
+    $('.cc-continue-with-action').css('display', $.defaultTracker.get("isTriggerSceneDone") && !$.defaultTracker.get("selectedActionService") ? 'block' : 'none');
+  },
+
+  "actions[track]" : function (oldValue, newValue) {
+    if (newValue) {
+      // we skip the trigger selection HTML rendering, let's assume it's already done by templating engine
+      // right now it's hardcoded
+
+      // hide all selections
+      $('.cc-action-selection').children().css('display', 'none');      
+      if (newValue.length > 0) {
+        $('.cc-action-selection').children('.cc-no-selection').css('display', 'none');
+      }
+      for (var i = 0, len = newValue.length; i < len; i++) {
+        var node = $('.cc-item[actionid="'+newValue[i].id+'"]');
+        node.parent().css('display', 'block'); // show selection
+      }
+    } 
+
+    if (!newValue || newValue.length == 0) {
+      $('.cc-action-selection').children().css('display', 'none');
+      $('.cc-action-selection').children('.cc-no-selection').css('display', 'block');
+    }
+  },
+
+  "selectedAction[track]" : function (oldValue, newValue) {
+    $('.cc-action-selected').css('display', newValue && newValue.id == 1 ? 'block' : 'none');
+    $('.cc-action-no-implementation').css('display', $.defaultTracker.get("actions").length > 0 && (!newValue || newValue.id != 1) ? 'block' : 'none');
+
+    // dumb way to reset
+    $('.cc-action-selected').find('input').val('');
+
+    $('.cc-choose-action-button').css('display', newValue ? 'none' : 'block');
+    $('.cc-choose-action-label').css('display', newValue ? 'none' : 'inline-block');
+
+    $('.cc-continue-with-action').css('display', $.defaultTracker.get("isTriggerSceneDone") && !$.defaultTracker.get("selectedActionService") ? 'block' : 'none');
+
+    if (!newValue) {
+      $.defaultTracker.set("isActionSceneDone", false);
+      $.defaultTracker.set("isValidAction", false);
+    }
+  },
+
+  "actionAttributes[track]" : function (oldValue, newValue) {
+    $.defaultTracker.set("isValidAction", newValue.email);
+  },
+
+  "isValidAction[track]" : function (oldValue, newValue) {
+    $('.cc-complete-button').css('display', newValue ? 'inline-block' : 'none');
+  },
+
+  // if set to true, conclude customization of action 
+  //
+  "isActionSceneDone[track]" : function (oldValue, newValue) {
+    $('.cc-target-email-address').text($.defaultTracker.get("actionAttributes").email);
+    $('.cc-action-summary').css('display', newValue ? 'block' : 'none');
+
+    if (newValue) {
+      $('.cc-action-selected').css('display', 'none');    
+      $('.cc-action-no-implementation').css('display', 'none');          
+    } else {
+      $.defaultTracker.check("selectedAction");
+    }
+  },
+
 });
 
 $.act({
@@ -170,16 +299,98 @@ $.act({
     $.defaultTracker.set("triggerAttributes", attributes);
   },
 
+  // set an alias
+  "update-trigger-attributes[blur]" : "update-trigger-attributes[change]",
+
   // proceed with choosing action services
   // 
-  "continue-choosing-trigger[click]" : function () {
+  "continue-choosing-trigger[click]" : function (el, ev) {
     if ($.defaultTracker.get("isValidTrigger")) {
       $.defaultTracker.set("isTriggerSceneDone", true);
+      $.actor.getListener("show-dropdown-selection[click]")($('.cc-that-button'), ev);    
     }
   },
 
   "edit-trigger[click]" : function () {
     $.defaultTracker.set("isTriggerSceneDone", false);
+  },
+
+  // Choose which action service inside selection popup, e.g. RSS
+  // 
+  "choose-that[click]" : function (el, ev) {
+    var serviceID = parseInt(el.attr('serviceid')||"0");
+    var actionServices = $.defaultTracker.get("actionServices");
+
+    // find the trigger
+    for (var i = 0, len = actionServices.length; i < len; i++) {
+      if (actionServices[i].id == serviceID) {
+        var actionService = actionServices[i];
+        $.defaultTracker.set("selectedActionService", actionService);
+
+        // close selection popup
+        $('.cc-that-selection').removeClass('on-show');
+        $('.cc-that-selection').css({
+          display : 'none'
+        });
+      }
+    }
+  },
+
+  "choose-another-action-service[click]" : function (el, ev) {
+    $.actor.getListener("show-dropdown-selection[click]")($('.cc-that-button'), ev);    
+  },
+
+  // Choose which trigger, e.g. which RSS trigger
+  //
+  "choose-action[click]" : function (el, ev) {
+    var actionID = parseInt(el.attr('actionid')||"0");
+    var actions = $.defaultTracker.get("actions");
+
+    // find the trigger
+    for (var i = 0, len = actions.length; i < len; i++) {
+      if (actions[i].id == actionID) {
+        var action = actions[i];
+        $.defaultTracker.set("selectedAction", action);
+
+        // close selection popup
+        $('.cc-action-selection').removeClass('on-show');
+        $('.cc-action-selection').css({
+          display : 'none'
+        });
+      }
+    }
+  },
+
+  "choose-another-action[click]" : function (el, ev) {
+    $.actor.getListener("show-dropdown-selection[click]")($('.cc-choose-action-button'), ev);
+  },
+
+  // e.g. when field changed inside action customization
+  //
+  "update-action-attributes[change]" : function (el, ev) {
+    // simple implementation of capturing attribute values
+    var container = el.parents('.cc-container:first');
+    var inputs = container.find('input');
+    var attributes = {};
+    for (var i = 0, len = inputs.length; i < len; i++) {
+      attributes[inputs.eq(i).attr('name')] = inputs.eq(i).val();
+    }
+    $.defaultTracker.set("actionAttributes", attributes);
+  },
+
+  // set an alias
+  "update-action-attributes[blur]" : "update-action-attributes[change]",
+
+  // complete and save
+  // 
+  "complete[click]" : function (el, ev) {
+    if ($.defaultTracker.get("isValidAction")) {
+      $.defaultTracker.set("isActionSceneDone", true);
+    }
+  },
+
+  "edit-action[click]" : function () {
+    $.defaultTracker.set("isActionSceneDone", false);
   }
 
 });

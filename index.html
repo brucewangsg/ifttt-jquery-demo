@@ -27,6 +27,12 @@
       </span>
       <ul class="cc-this-selection cc-dropdown dropdown-menu">
         <li>
+          <div class="service-selection" serviceid="3" jsclass="choose-this">
+            <h3>RSS Feed</h3>
+            <div>This service deal with Really Simple Syndicate.</div>
+          </div>
+        </li>
+        <li>
           <div class="service-selection" serviceid="1" jsclass="choose-this">
             <h3>Twitter</h3>
             <div>Twitter Applets can help you manage and save tweets, keep an eye on #hashtags, and much more.</div>
@@ -36,12 +42,6 @@
           <div class="service-selection" serviceid="2" jsclass="choose-this">
             <h3>Date &amp; Time</h3>
             <div>Find the best date and time for your scheduled task.</div>
-          </div>
-        </li>
-        <li>
-          <div class="service-selection" serviceid="3" jsclass="choose-this">
-            <h3>RSS Feed</h3>
-            <div>This service deal with Really Simple Syndicate.</div>
           </div>
         </li>
         <li>
@@ -93,11 +93,77 @@
 
     <!-- THAT button -->
     <span class="btn-group">
-      <a class="btn dropdown-toggle disabled" data-toggle="dropdown" href="#">
+      <span class="cc-that-button btn dropdown-toggle disabled" data-toggle="dropdown" jsclass="show-dropdown-selection">
         THAT
         <span class="caret"></span>
-      </a>
-      <ul class="dropdown-menu">
+      </span>
+      <ul class="cc-that-selection cc-dropdown dropdown-menu">
+        <li class="cc-no-selection">
+          <div class="cc-item service-selection" serviceid="0" jsclass="choose-trigger">
+            <h3>No Action Available</h3>
+            <div>...</div>
+          </div>
+        </li> 
+        <li>
+          <div class="cc-item service-selection" serviceid="5" jsclass="choose-that">
+            <h3>Email</h3>
+            <div>Respond to inbound emails for any smtp server.</div>
+          </div>
+        </li>
+        <li>
+          <div class="cc-item service-selection" serviceid="1" jsclass="choose-that">
+            <h3>Twitter</h3>
+            <div>Twitter Applets can help you manage and save tweets, keep an eye on #hashtags, and much more.</div>
+          </div>
+        </li>
+        <li>
+          <div class="cc-item service-selection" serviceid="2" jsclass="choose-that">
+            <h3>Date &amp; Time</h3>
+            <div>Find the best date and time for your scheduled task.</div>
+          </div>
+        </li>
+        <li>
+          <div class="cc-item service-selection" serviceid="3" jsclass="choose-that">
+            <h3>RSS Feed</h3>
+            <div>This service deal with Really Simple Syndicate.</div>
+          </div>
+        </li>
+        <li>
+          <div class="cc-item service-selection" serviceid="4" jsclass="choose-that">
+            <h3>SMS</h3>
+            <div>Get important notifications on your phone via SMS.</div>
+          </div>
+        </li>
+        <li>
+          <div class="cc-item service-selection" serviceid="6" jsclass="choose-that">
+            <h3>Weather</h3>
+            <div>Today's weather report.</div>
+          </div>
+        </li>
+        <li>
+          <div class="cc-item service-selection" serviceid="7" jsclass="choose-that">
+            <h3>Phone Call</h3>
+            <div>This service can trigger Applets when you leave a voicemail at the IFTTT number.</div>
+          </div>
+        </li>
+        <li>
+          <div class="cc-item service-selection" serviceid="8" jsclass="choose-that">
+            <h3>Delicious</h3>
+            <div>Delicious is a social bookmarking web service for storing, sharing, and discovering web bookmarks.</div>
+          </div>
+        </li>
+        <li>
+          <div class="cc-item service-selection" serviceid="9" jsclass="choose-that">
+            <h3>Facebook</h3>
+            <div>Manage your profile, posting, photos and more with Facebook Applets that work with the world's largest social networking site.</div>
+          </div>
+        </li>
+        <li>
+          <div class="cc-item service-selection" serviceid="10" jsclass="choose-that">
+            <h3>Tumblr</h3>
+            <div>Tumblr is a blogging platform that allows users to post text, images, videos, links, quotes, and audio.</div>
+          </div>
+        </li>
       </ul>
     </span>
   </div>
@@ -152,6 +218,64 @@
   <div class="cc-trigger-summary container" style="display:none; margin-top : 20px">
     <span class="main-label">IF</span> When a new feed is available at <span class='cc-feed-address'></span> <span class="label label-warning clickable-label" jsclass="edit-trigger">edit trigger</span>
   </div>
+
+  <div class="cc-continue-with-action cc-container container" style="display:none; margin-top : 20px">
+    <span class="main-label">THEN</span> <span class="label label-warning clickable-label" jsclass="choose-another-action-service">choose that</span>
+  </div>
+
+
+  <div class="cc-that-was-selected container" style="display:none; margin-top : 20px">
+    You have selected <strong class="cc-action-service-name"></strong> service. <span class="cc-choose-action-label">Choose an action:</span>
+
+    <span class="btn-group">
+      <span class="cc-choose-action-button btn dropdown-toggle" data-toggle="dropdown" jsclass="show-dropdown-selection">
+        Choose Action
+        <span class="caret"></span>
+      </span>
+      <ul class="cc-action-selection cc-dropdown dropdown-menu">
+        <li class="cc-no-selection">
+          <div class="cc-item service-selection" actionid="0" jsclass="choose-action">
+            <h3>No Trigger Available</h3>
+            <div>...</div>
+          </div>
+        </li> 
+        <li style="display:none">
+          <div class="cc-item service-selection" actionid="1" jsclass="choose-action">
+            <h3>Send Email To Someone</h3>
+            <div>e.g. send to yourself</div>
+          </div>
+        </li> 
+        <li style="display:none">
+          <div class="cc-item service-selection" actionid="2" jsclass="choose-action">
+            <h3>Remind me through email later</h3>
+            <div>set a schedule and remind me later</div>
+          </div>
+        </li>               
+      </ul>
+    </span>
+
+  </div>
+
+  <div class="cc-action-selected cc-container container" style="display:none; margin-top : 20px">
+    <span class="main-label">THEN</span> Send email to: <span class="label label-warning clickable-label" jsclass="choose-another-action">or choose another action</span>
+
+    <div style='margin : 10px 0px; padding-left : 70px'>
+      Specify your email
+      <input type='text' name='email' placeholder='john.doe@email.com' jsclass='update-action-attributes' /> 
+
+      <span class="cc-complete-button btn" style="display:none" jsclass="complete">Save</span>
+    </div>    
+  </div>
+
+  <div class="cc-action-no-implementation container" style="display : none">
+    Ooops, this action has yet to be implemented ... <span class="label label-warning clickable-label" jsclass="choose-another-action">or choose another action</span>
+  </div>
+
+  <div class="cc-action-summary container" style="display:none; margin-top : 20px">
+    <span class="main-label">THEN</span> Send email to : <span class='cc-target-email-address'></span> <span class="label label-warning clickable-label" jsclass="edit-action">edit action</span>
+  </div>
+
+
 
 </body>
 </html>
