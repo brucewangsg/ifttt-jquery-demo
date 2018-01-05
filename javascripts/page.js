@@ -17,18 +17,24 @@ $.defaultTracker.listen({
     $('.cc-this-button')[newValue.length > 0 ? "removeClass" : "addClass"]("disabled");
   },
   "triggerCategory[track]" : function (oldValue, newValue) {
+    // when this trigger service get selected, e.g. RSS
+
+    $('.cc-trigger-service-name').text(newValue.title);
+    $('.cc-this-was-selected').css('display', newValue ? "block" : "none");
 
   }
 });
 
 $.act({
-  "show-this-selection[click]" : function (el, ev) {
-    if ($('.cc-this-selection.on-show')[0]) {
+  // make this a common dropdown function
+  //
+  "show-dropdown-selection[click]" : function (el, ev) {
+    if (el.parent().children('.cc-dropdown.on-show')[0]) {
       return;
     }
 
-    $('.cc-this-selection').addClass('on-show');
-    $('.cc-this-selection').css({
+    el.parent().children('.cc-dropdown').addClass('on-show');
+    el.parent().children('.cc-dropdown').css({
       display : 'block',
       width : 400,
       position : 'absolute',
@@ -38,18 +44,23 @@ $.act({
     });
 
     // hide the selection popup
-    var cancelShow = function (ev) {
-      if ($(ev.target).parents('.cc-this-selection:first')[0]) {
-        return;        
-      }
-      $('.cc-this-selection').removeClass('on-show');
-      $('.cc-this-selection').css({
-        display : 'none'
-      });
-      $(document).unbind('mousedown', cancelShow);
-    };
+    var cancelShow = (function (el) {
+      return function (ev) {
+        if ($(ev.target).parents('.cc-dropdown:first')[0]) {
+          return;        
+        }
+        el.parent().children('.cc-dropdown').removeClass('on-show');
+        el.parent().children('.cc-dropdown').css({
+          display : 'none'
+        });
+        $(document).unbind('mousedown', cancelShow);
+      };
+    })(el);
     $(document).bind('mousedown', cancelShow);
   },
+
+  // Choose which trigger service inside trigger selection popup, e.g. RSS
+  // 
   "choose-this[click]" : function (el, ev) {
     var serviceID = parseInt(el.attr('serviceid')||"0");
     var triggers = $.defaultTracker.get("triggerSelections");

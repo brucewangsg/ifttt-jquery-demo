@@ -21,11 +21,11 @@
 
     <!-- THIS button -->
     <span class="btn-group">
-      <span class="cc-this-button btn dropdown-toggle disabled" data-toggle="dropdown" jsclass="show-this-selection">
+      <span class="cc-this-button btn dropdown-toggle disabled" data-toggle="dropdown" jsclass="show-dropdown-selection">
         THIS
         <span class="caret"></span>
       </span>
-      <ul class="cc-this-selection dropdown-menu">
+      <ul class="cc-this-selection cc-dropdown dropdown-menu">
         <li>
           <div class="service-selection" serviceid="1" jsclass="choose-this">
             <h3>Twitter</h3>
@@ -100,6 +100,32 @@
       <ul class="dropdown-menu">
       </ul>
     </span>
+  </div>
+
+  <div class="cc-this-was-selected container" style="display:none">
+    You have selected <strong class="cc-trigger-service-name"></strong> service. Choose a trigger:
+
+    <span class="btn-group">
+      <span class="cc-this-button btn dropdown-toggle disabled" data-toggle="dropdown" jsclass="show-dropdown-selection">
+        Choose Trigger
+        <span class="caret"></span>
+      </span>
+      <ul class="cc-trigger-selection cc-dropdown dropdown-menu">
+        <li>
+          <div class="service-selection" serviceid="1" jsclass="choose-trigger">
+            <h3>Twitter</h3>
+            <div>Twitter Applets can help you manage and save tweets, keep an eye on #hashtags, and much more.</div>
+          </div>
+        </li> 
+        <li>
+          <div class="service-selection" serviceid="2" jsclass="choose-trigger">
+            <h3>Twitter</h3>
+            <div>Twitter Applets can help you manage and save tweets, keep an eye on #hashtags, and much more.</div>
+          </div>
+        </li>               
+      </ul>
+    </span>
+
   </div>
 
 </body>
