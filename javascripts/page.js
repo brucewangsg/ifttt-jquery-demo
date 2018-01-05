@@ -16,7 +16,7 @@ $.defaultTracker.listen({
     // when there are available selections, allow enable this button
     $('.cc-this-button')[newValue.length > 0 ? "removeClass" : "addClass"]("disabled");
   },
-  "triggerCategory[track]" : function (oldValue, newValue) {
+  "selectedTriggerService[track]" : function (oldValue, newValue) {
     // when this trigger service get selected, e.g. RSS
 
     $('.cc-trigger-service-name').text(newValue.title);
@@ -28,6 +28,9 @@ $.defaultTracker.listen({
   },
   "triggers[track]" : function (oldValue, newValue) {
     if (newValue) {
+      // we skip the trigger selection HTML rendering, let's assume it's already done by templating engine
+      // right now it's hardcoded
+
       // hide all selections
       $('.cc-trigger-selection').children().css('display', 'none');      
       if (newValue.length > 0) {
@@ -43,6 +46,19 @@ $.defaultTracker.listen({
       $('.cc-trigger-selection').children().css('display', 'none');
       $('.cc-trigger-selection').children('.cc-no-selection').css('display', 'block');
     }
+  },
+  "selectedTrigger[track]" : function (oldValue, newValue) {
+    $('.cc-trigger-selected').css('display', newValue && newValue.id == 1 ? 'block' : 'none');
+    $('.cc-trigger-no-implementation').css('display', !newValue || newValue.id != 1 ? 'block' : 'none');
+
+    $('.cc-choose-trigger-button').css('display', newValue ? 'none' : 'block');
+    $('.cc-choose-trigger-label').css('display', newValue ? 'none' : 'block');
+  },
+  "triggerAttributes[track]" : function (oldValue, newValue) {
+    $.defaultTracker.set("isValidTrigger", newValue.address);
+  },
+  "isValidTrigger[track]" : function (oldValue, newValue) {
+    $('.cc-continue-button').css('display', newValue ? 'inline-block' : 'none');
   }
 });
 
@@ -80,17 +96,17 @@ $.act({
     $(document).bind('mousedown', cancelShow);
   },
 
-  // Choose which trigger service inside trigger selection popup, e.g. RSS
+  // Choose which trigger service inside selection popup, e.g. RSS
   // 
   "choose-this[click]" : function (el, ev) {
     var serviceID = parseInt(el.attr('serviceid')||"0");
-    var triggers = $.defaultTracker.get("triggerServices");
+    var triggerServices = $.defaultTracker.get("triggerServices");
 
     // find the trigger
-    for (var i = 0, len = triggers.length; i < len; i++) {
-      if (triggers[i].id == serviceID) {
-        var trigger = triggers[i];
-        $.defaultTracker.set("triggerCategory", trigger);
+    for (var i = 0, len = triggerServices.length; i < len; i++) {
+      if (triggerServices[i].id == serviceID) {
+        var triggerService = triggerServices[i];
+        $.defaultTracker.set("selectedTriggerService", triggerService);
 
         // close selection popup
         $('.cc-this-selection').removeClass('on-show');
@@ -99,5 +115,45 @@ $.act({
         });
       }
     }
+  },
+
+  // Choose which trigger, e.g. which RSS trigger
+  //
+  "choose-trigger[click]" : function (el, ev) {
+    var triggerID = parseInt(el.attr('triggerid')||"0");
+    var triggers = $.defaultTracker.get("triggers");
+
+    // find the trigger
+    for (var i = 0, len = triggers.length; i < len; i++) {
+      if (triggers[i].id == triggerID) {
+        var trigger = triggers[i];
+        $.defaultTracker.set("selectedTrigger", trigger);
+
+        // close selection popup
+        $('.cc-trigger-selection').removeClass('on-show');
+        $('.cc-trigger-selection').css({
+          display : 'none'
+        });
+      }
+    }
+  },
+
+  // reselect another trigger
+  //
+  "choose-another-trigger[click]" : function (el, ev) {
+    $.actor.getListener("show-dropdown-selection[click]")($('.cc-choose-trigger-button'), ev);
+  },
+
+  // e.g. input field changed
+  //
+  "update-trigger-attributes[change]" : function (el, ev) {
+    // simple implementation of capturing attribute values
+    var container = el.parents('.cc-container:first');
+    var inputs = container.find('input');
+    var attributes = {};
+    for (var i = 0, len = inputs.length; i < len; i++) {
+      attributes[inputs.eq(i).attr('name')] = inputs.eq(i).val();
+    }
+    $.defaultTracker.set("triggerAttributes", attributes);
   }
 });

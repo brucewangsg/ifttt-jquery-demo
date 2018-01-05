@@ -103,10 +103,10 @@
   </div>
 
   <div class="cc-this-was-selected container" style="display:none">
-    You have selected <strong class="cc-trigger-service-name"></strong> service. Choose a trigger:
+    You have selected <strong class="cc-trigger-service-name"></strong> service. <span class="cc-choose-trigger-label">Choose a trigger:</span>
 
     <span class="btn-group">
-      <span class="cc-this-button btn dropdown-toggle disabled" data-toggle="dropdown" jsclass="show-dropdown-selection">
+      <span class="cc-choose-trigger-button btn dropdown-toggle" data-toggle="dropdown" jsclass="show-dropdown-selection">
         Choose Trigger
         <span class="caret"></span>
       </span>
@@ -133,6 +133,22 @@
     </span>
 
   </div>
+
+  <div class="cc-trigger-selected cc-container container" style="display:none; margin-top : 20px">
+    <span class="main-label">IF</span> New Feed is available: <span class="label label-warning clickable-label" jsclass="choose-another-trigger">or choose another trigger</span>
+
+    <div style='margin : 10px 0px; padding-left : 70px'>
+      Specify feed URL
+      <input type='text' name='address' placeholder='http://www.wordpress.com/feed' jsclass='update-trigger-attributes' /> 
+
+      <span class="cc-continue-button btn" style="display:none">Save</span>
+    </div>    
+  </div>
+
+  <div class="cc-trigger-no-implementation container" style="display : none">
+    Ooops, this trigger has yet to be implemented ... <span class="label label-warning clickable-label" jsclass="choose-another-trigger">or choose another trigger</span>
+  </div>
+
 
 </body>
 </html>
