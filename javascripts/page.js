@@ -59,6 +59,19 @@ $.defaultTracker.listen({
   },
   "isValidTrigger[track]" : function (oldValue, newValue) {
     $('.cc-continue-button').css('display', newValue ? 'inline-block' : 'none');
+  },
+  // if set to true, conclude customization of trigger 
+  //
+  "isTriggerSceneDone[track]" : function (oldValue, newValue) {
+    $('.cc-feed-address').text($.defaultTracker.get("triggerAttributes").address);
+    $('.cc-trigger-summary').css('display', newValue ? 'block' : 'none');
+
+    if (newValue) {
+      $('.cc-trigger-selected').css('display', 'none');    
+      $('.cc-trigger-no-implementation').css('display', 'none');          
+    } else {
+      $.defaultTracker.check("selectedTrigger");
+    }
   }
 });
 
@@ -155,5 +168,18 @@ $.act({
       attributes[inputs.eq(i).attr('name')] = inputs.eq(i).val();
     }
     $.defaultTracker.set("triggerAttributes", attributes);
+  },
+
+  // proceed with choosing action services
+  // 
+  "continue-choosing-trigger[click]" : function () {
+    if ($.defaultTracker.get("isValidTrigger")) {
+      $.defaultTracker.set("isTriggerSceneDone", true);
+    }
+  },
+
+  "edit-trigger[click]" : function () {
+    $.defaultTracker.set("isTriggerSceneDone", false);
   }
+
 });

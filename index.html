@@ -141,7 +141,7 @@
       Specify feed URL
       <input type='text' name='address' placeholder='http://www.wordpress.com/feed' jsclass='update-trigger-attributes' /> 
 
-      <span class="cc-continue-button btn" style="display:none">Save</span>
+      <span class="cc-continue-button btn" style="display:none" jsclass="continue-choosing-trigger">Continue</span>
     </div>    
   </div>
 
@@ -149,6 +149,9 @@
     Ooops, this trigger has yet to be implemented ... <span class="label label-warning clickable-label" jsclass="choose-another-trigger">or choose another trigger</span>
   </div>
 
+  <div class="cc-trigger-summary container" style="display:none; margin-top : 20px">
+    <span class="main-label">IF</span> When a new feed is available at <span class='cc-feed-address'></span> <span class="label label-warning clickable-label" jsclass="edit-trigger">edit trigger</span>
+  </div>
 
 </body>
 </html>
