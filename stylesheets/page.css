@@ -1,0 +1,13 @@
+.header-container {
+  text-align : center;
+  padding : 20px 10px;
+}
+
+.main-label {
+  font-size : 2em;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
