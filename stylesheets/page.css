@@ -11,3 +11,23 @@
   margin-right: 10px;
 }
 
+.btn-group .dropdown-menu {
+  overflow: scroll;
+  -webkit-overflow-scrolling : touch;
+}
+
+.dropdown-menu .service-selection {
+  text-align: left;
+  padding : 5px 15px 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.dropdown-menu .service-selection h3 {
+  margin : 0px;
+}
+
+.dropdown-menu .service-selection div {
+  width : 100%;
+  white-space : normal;
+}
