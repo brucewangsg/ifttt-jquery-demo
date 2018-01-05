@@ -4,6 +4,13 @@ $(document).ready(function () {
 
   $.mockAPI.get("/api/triggers", function (triggers) {
     console.log(triggers);
+    $.defaultTracker.set("triggerSelections", triggers);
   });
 
+});
+
+$.defaultTracker.listen({
+  "triggerSelections[track]" : function (oldValue, newValue) {
+    console.log("selections ", newValue);
+  }
 });
