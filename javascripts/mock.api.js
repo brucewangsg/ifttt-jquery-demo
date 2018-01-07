@@ -4,7 +4,6 @@
       if (callback == undefined && typeof data == "function") {
         callback = data;
       }
-      console.log(path)
 
       if (path == "/api/triggerServices") {
         callback([{

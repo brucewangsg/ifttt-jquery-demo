@@ -3,16 +3,13 @@ $(document).ready(function () {
   // imagine that we will have to query a list of available trigger services
 
   $.mockAPI.get("/api/triggerServices", function (triggerServices) {
-    console.log(triggerServices);
     $.defaultTracker.set("triggerServices", triggerServices);
   });
 
 });
 
 $.defaultTracker.listen({
-  "triggerServices[track]" : function (oldValue, newValue) {
-    console.log("selections ", newValue);
-
+  "triggerServices[track]" : function (oldValue, newValue) {    
     // when there are available selections, allow enable this button
     $('.cc-this-button')[newValue.length > 0 ? "removeClass" : "addClass"]("disabled");
   },
@@ -23,9 +20,14 @@ $.defaultTracker.listen({
     $('.cc-trigger-service-name').text(newValue.title);
     $('.cc-this-was-selected').css('display', newValue ? "block" : "none");
 
+    // once a particular trigger service get loaded, 
+    // we clear triggers selection and reset any previously selected trigger
+    //
     $.defaultTracker.set("triggers", []);
     $.defaultTracker.set("selectedTrigger", null);
 
+    // load triggers list under a particular service
+    //
     $.mockAPI.get("/api/triggers", { trigger_service_id : newValue.id }, function (triggers) {
       $.defaultTracker.set("triggers", triggers);
     });
@@ -33,7 +35,6 @@ $.defaultTracker.listen({
     // load corresponding action services
     // 
     $.mockAPI.get("/api/actionServices", { trigger_service_id : newValue.id }, function (actionServices) {
-      console.log('action services ', actionServices);
       $.defaultTracker.set("actionServices", actionServices);
     });
 
@@ -139,6 +140,8 @@ $.defaultTracker.listen({
     $.defaultTracker.set("actions", []);
     $.defaultTracker.set("selectedAction", null);
 
+    // load list of actions under selected action service
+    //
     $.mockAPI.get("/api/actions", { action_service_id : newValue.id }, function (actions) {
       $.defaultTracker.set("actions", actions);
     });
@@ -189,6 +192,7 @@ $.defaultTracker.listen({
   },
 
   "actionAttributes[track]" : function (oldValue, newValue) {
+    // attributes get updated, validate the email address
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     var isValid = re.test((newValue.email).toString().toLowerCase());
     $.defaultTracker.set("isValidAction", isValid);
@@ -212,7 +216,7 @@ $.defaultTracker.listen({
     }
 
     $('.cc-final-section').css('display', newValue ? 'block' : 'none');         
-  },
+  }
 
 });
 
