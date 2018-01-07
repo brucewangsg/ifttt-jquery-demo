@@ -91,6 +91,7 @@ $.defaultTracker.listen({
   // if set to true, conclude customization of trigger 
   //
   "isTriggerSceneDone[track]" : function (oldValue, newValue) {
+    $('.cc-that-button')[$.defaultTracker.get("isTriggerSceneDone") && $.defaultTracker.get("actionServices") && $.defaultTracker.get("actionServices").length > 0 ? "removeClass" : "addClass"]("disabled");
     $('.cc-feed-address').text($.defaultTracker.get("triggerAttributes").address);
     $('.cc-trigger-summary').css('display', newValue ? 'block' : 'none');
 
@@ -105,7 +106,7 @@ $.defaultTracker.listen({
   },
 
   "actionServices[track]" : function (oldValue, newValue) {
-    $('.cc-that-button')[newValue && newValue.length > 0 ? "removeClass" : "addClass"]("disabled");
+    $('.cc-that-button')[$.defaultTracker.get("isTriggerSceneDone") && newValue && newValue.length > 0 ? "removeClass" : "addClass"]("disabled");
 
     if (newValue) {
       // we skip the trigger selection HTML rendering, let's assume it's already done by templating engine
@@ -231,6 +232,10 @@ $.act({
   //
   "show-dropdown-selection[click]" : function (el, ev) {
     if (el.parent().children('.cc-dropdown.on-show')[0]) {
+      return;
+    }
+
+    if (el.hasClass('disabled')) {
       return;
     }
 
