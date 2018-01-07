@@ -67,7 +67,9 @@ $.defaultTracker.listen({
     $('.cc-choose-trigger-label').css('display', newValue ? 'none' : 'inline-block');
 
     // dumb way to reset
-    $('.cc-trigger-selected').find('input').val('');
+    if (!newValue) {
+      $('.cc-trigger-selected').find('input').val('');
+    }
 
     if (!newValue) {
       $.defaultTracker.set("isTriggerSceneDone", false);
@@ -171,7 +173,9 @@ $.defaultTracker.listen({
     $('.cc-action-no-implementation').css('display', $.defaultTracker.get("actions").length > 0 && (!newValue || newValue.id != 1) ? 'block' : 'none');
 
     // dumb way to reset
-    $('.cc-action-selected').find('input').val('');
+    if (!newValue) {
+      $('.cc-action-selected').find('input').val('');
+    }
 
     $('.cc-choose-action-button').css('display', newValue ? 'none' : 'block');
     $('.cc-choose-action-label').css('display', newValue ? 'none' : 'inline-block');
@@ -232,16 +236,14 @@ $.act({
     if (!dropdownMenu[0]) {
       return;
     }
-
     var originalParent = dropdownMenu.parent();
-    dropdownMenu.addClass('on-show');
-  
-    if ($(window).width() < 480) { // on mobile
-      setTimeout(function () {
-        dropdownMenu.appendTo(document.body);
-      }, 100);
+
+    if ($(window).width() <= 480) { // on mobile
+      dropdownMenu.appendTo(document.body);
     } 
 
+    dropdownMenu.addClass('on-show');
+  
     // hide the selection popup
     var cancelShow = (function (el, dropdownMenu) {
       return function (ev) {
@@ -249,6 +251,7 @@ $.act({
           return;        
         }
         $(document).unbind('mousedown', cancelShow);
+        $(document).unbind('touchstart', cancelShow);
 
         dropdownMenu.removeClass('on-show');
         dropdownMenu.appendTo(originalParent);
@@ -256,6 +259,7 @@ $.act({
     })(el, dropdownMenu);
 
     $(document).bind('mousedown', cancelShow);
+    $(document).bind('touchstart', cancelShow);
   },
 
   // Choose which trigger service inside selection popup, e.g. RSS
@@ -317,6 +321,17 @@ $.act({
       attributes[inputs.eq(i).attr('name')] = inputs.eq(i).val();
     }
     $.defaultTracker.set("triggerAttributes", attributes);
+  },
+
+  "auto-add-http[blur]" : function (el, ev) {
+    var val = el.val();
+    if (val && val.length > 0) {
+      var re = /^(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
+      var isValid = re.test((val).toString().toLowerCase());
+      if (isValid && !val.match(/^http/)) {
+        el.val('https://' + val);
+      }
+    }
   },
 
   // set an alias

@@ -202,14 +202,17 @@
 
     </div>
 
-    <div class="cc-trigger-selected cc-container container" style="display:none; margin-top : 20px">
-      <span class="main-label if-sign">IF</span> New Feed is available: <span class="label label-warning clickable-label" jsclass="choose-another-trigger">or choose another trigger</span>
+    <div class="cc-trigger-selected cc-container container" style="display:none; margin-top : 20px">    
+      <div class='indented-container'>  
+        <span class="main-label if-sign">IF</span> New Feed is available:       
+        <span class="label label-warning clickable-label" jsclass="choose-another-trigger">or choose another trigger</span>
+      </div>
 
-      <div style='margin : 10px 0px; padding-left : 70px'>
+      <div class='indented-container'>  
         <form class="form-inline" jsclass="continue-choosing-trigger-form">
           <div class="form-group">
             <label for="exampleInputName2">Specify Feed URL:</label>
-            <input type='text' name='address' placeholder='http://www.wordpress.com/feed' jsclass='update-trigger-attributes' /> 
+            <input type='text' name='address' placeholder='http://www.wordpress.com/feed' jsclass='update-trigger-attributes auto-add-http' /> 
             <button type="submit" style="display:none" jsclass="continue-choosing-trigger" class="cc-continue-button btn btn-default">Continue</button>
           </div>
         </form>
@@ -222,7 +225,9 @@
     </div>
 
     <div class="cc-trigger-summary container" style="display:none; margin-top : 20px">
-      <span class="main-label if-sign">IF</span> When a new feed is available at <span class='cc-feed-address'></span> <span class="cc-edit-trigger label label-warning clickable-label" jsclass="edit-trigger">edit trigger</span>
+      <div class='indented-container'>  
+        <span class="main-label if-sign">IF</span> When a new feed is available at <span class='cc-feed-address'></span> <span class="cc-edit-trigger label label-warning clickable-label" jsclass="edit-trigger">edit trigger</span>
+      </div>
     </div>
   </div>
 
@@ -264,9 +269,11 @@
     </div>
 
     <div class="cc-action-selected cc-container container" style="display:none; margin-top : 20px">
-      <span class="main-label then-sign">THEN</span> Send email to: <span class="label label-warning clickable-label" jsclass="choose-another-action">or choose another action</span>
+      <div class='indented-container level-2'>  
+        <span class="main-label then-sign">THEN</span> Send email to: <span class="label label-warning clickable-label" jsclass="choose-another-action">or choose another action</span>
+      </div>
 
-      <div style='margin : 10px 0px; padding-left : 70px'>
+      <div class='indented-container level-2'>  
         <form class="form-inline" jsclass="complete-form">
           <div class="form-group">
             <label for="exampleInputName2">Specify your email:</label>
@@ -282,7 +289,9 @@
     </div>
 
     <div class="cc-action-summary container" style="display:none; margin-top : 20px">
-      <span class="main-label then-sign">THEN</span> Send email to : <span class='cc-target-email-address'></span> <span class="cc-edit-action label label-warning clickable-label" jsclass="edit-action">edit action</span>
+      <div class='indented-container level-2'>  
+        <span class="main-label then-sign">THEN</span> Send email to : <span class='cc-target-email-address'></span> <span class="cc-edit-action label label-warning clickable-label" jsclass="edit-action">edit action</span>
+      </div>
     </div>
   </div>
 
