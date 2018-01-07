@@ -135,6 +135,7 @@ html, body {
   padding-top: 10px;
   position: relative;
   padding-bottom: 10px;
+  padding-right: 20px;
 }
 
 .indented-container.level-2 {
@@ -146,6 +147,11 @@ html, body {
   position: absolute;
   top : 0px;
   left: 0px;
+}
+
+.indented-container form input {
+  max-width: 100%;
+  margin-bottom: 10px;
 }
 
 @media (min-width: 1000px) { 
