@@ -231,9 +231,9 @@ $.act({
     var dropdownMenu = el.parent().children('.cc-dropdown');
     dropdownMenu.addClass('on-show');
   
-    // if ($(window).width() < 480) { // on mobile
+    if ($(window).width() < 480) { // on mobile
       dropdownMenu.appendTo(document.body);
-    // } 
+    } 
 
     // hide the selection popup
     var cancelShow = (function (el, dropdownMenu) {
@@ -245,6 +245,8 @@ $.act({
         dropdownMenu.css({
           display : 'none'
         });
+        dropdownMenu.insertAfter(el);
+        
         $(document).unbind('mousedown', cancelShow);
       };
     })(el, dropdownMenu);
