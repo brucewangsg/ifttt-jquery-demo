@@ -8,6 +8,7 @@
   <!--[if !IE]><!--><script type="text/javascript" src='/javascripts/jquery.min.js'></script><!-- <![endif]-->
 	<title>IFTTT Applet</title>
   <link href="/stylesheets/bootstrap.min.css" rel="stylesheet"/>
+  <link href="/stylesheets/bootstrap-responsive.min.css" rel="stylesheet"/>
   <link href="/stylesheets/page.css" rel="stylesheet"/>
   <script type="text/javascript" src='/javascripts/mock.api.js'></script>
   <script type="text/javascript" src='/javascripts/kvo.tracker.js'></script>
@@ -16,8 +17,8 @@
 </head>
 <body>
 
-  <div class="container header-container">
-    <span class="main-label">IF</span> 
+  <div class="cc-header-question container header-container">
+    <span class="main-label if-word">IF</span> 
 
     <!-- THIS button -->
     <span class="btn-group">
@@ -89,7 +90,7 @@
       </ul>
     </span>
 
-    <span class="main-label">THEN</span> 
+    <span class="main-label then-word">THEN</span> 
 
     <!-- THAT button -->
     <span class="btn-group">
@@ -168,114 +169,126 @@
     </span>
   </div>
 
-  <div class="cc-this-was-selected container" style="display:none">
-    You have selected <strong class="cc-trigger-service-name"></strong> service. <span class="cc-choose-trigger-label">Choose a trigger:</span>
+  <div class="cc-if-section if-section container" style="display:none">
+    <div class="cc-this-was-selected container" style="display:none">
+      You have selected <strong class="cc-trigger-service-name"></strong> service. <span class="cc-choose-trigger-label">Choose a trigger:</span>
 
-    <span class="btn-group">
-      <span class="cc-choose-trigger-button btn dropdown-toggle" data-toggle="dropdown" jsclass="show-dropdown-selection">
-        Choose Trigger
-        <span class="caret"></span>
+      <span class="btn-group">
+        <span class="cc-choose-trigger-button btn dropdown-toggle" data-toggle="dropdown" jsclass="show-dropdown-selection">
+          Choose Trigger
+          <span class="caret"></span>
+        </span>
+        <ul class="cc-trigger-selection cc-dropdown dropdown-menu">
+          <li class="cc-no-selection">
+            <div class="cc-item service-selection" triggerid="0" jsclass="choose-trigger">
+              <h3>No Trigger Available</h3>
+              <div>...</div>
+            </div>
+          </li> 
+          <li style="display:none">
+            <div class="cc-item service-selection" triggerid="1" jsclass="choose-trigger">
+              <h3>New Feed Item</h3>
+              <div>When new feed appeared in RSS feed</div>
+            </div>
+          </li> 
+          <li style="display:none">
+            <div class="cc-item service-selection" triggerid="2" jsclass="choose-trigger">
+              <h3>New Feed Item Matches</h3>
+              <div>When new feed matches specification</div>
+            </div>
+          </li>               
+        </ul>
       </span>
-      <ul class="cc-trigger-selection cc-dropdown dropdown-menu">
-        <li class="cc-no-selection">
-          <div class="cc-item service-selection" triggerid="0" jsclass="choose-trigger">
-            <h3>No Trigger Available</h3>
-            <div>...</div>
+
+    </div>
+
+    <div class="cc-trigger-selected cc-container container" style="display:none; margin-top : 20px">
+      <span class="main-label if-sign">IF</span> New Feed is available: <span class="label label-warning clickable-label" jsclass="choose-another-trigger">or choose another trigger</span>
+
+      <div style='margin : 10px 0px; padding-left : 70px'>
+        <form class="form-inline" jsclass="continue-choosing-trigger-form">
+          <div class="form-group">
+            <label for="exampleInputName2">Specify Feed URL:</label>
+            <input type='text' name='address' placeholder='http://www.wordpress.com/feed' jsclass='update-trigger-attributes' /> 
+            <button type="submit" style="display:none" jsclass="continue-choosing-trigger" class="cc-continue-button btn btn-default">Continue</button>
           </div>
-        </li> 
-        <li style="display:none">
-          <div class="cc-item service-selection" triggerid="1" jsclass="choose-trigger">
-            <h3>New Feed Item</h3>
-            <div>When new feed appeared in RSS feed</div>
-          </div>
-        </li> 
-        <li style="display:none">
-          <div class="cc-item service-selection" triggerid="2" jsclass="choose-trigger">
-            <h3>New Feed Item Matches</h3>
-            <div>When new feed matches specification</div>
-          </div>
-        </li>               
-      </ul>
-    </span>
+        </form>
+      </div>    
 
+    </div>
+
+    <div class="cc-trigger-no-implementation container" style="display : none; margin-top : 20px; padding-left : 20px">
+      Ooops, this trigger has yet to be implemented ... <span class="label label-warning clickable-label" jsclass="choose-another-trigger">or choose another trigger</span>
+    </div>
+
+    <div class="cc-trigger-summary container" style="display:none; margin-top : 20px">
+      <span class="main-label if-sign">IF</span> When a new feed is available at <span class='cc-feed-address'></span> <span class="cc-edit-trigger label label-warning clickable-label" jsclass="edit-trigger">edit trigger</span>
+    </div>
   </div>
 
-  <div class="cc-trigger-selected cc-container container" style="display:none; margin-top : 20px">
-    <span class="main-label">IF</span> New Feed is available: <span class="label label-warning clickable-label" jsclass="choose-another-trigger">or choose another trigger</span>
+  <div class='cc-then-section then-section container' style="display:none">
+    <div class="cc-continue-with-action cc-container container" style="display:none;">
+      <span class="main-label">THEN</span> <span class="label label-warning clickable-label" jsclass="choose-another-action-service">choose that</span>
+    </div>
 
-    <div style='margin : 10px 0px; padding-left : 70px'>
-      Specify feed URL
-      <input type='text' name='address' placeholder='http://www.wordpress.com/feed' jsclass='update-trigger-attributes' /> 
+    <div class="cc-that-was-selected container" style="display:none">
+      You have selected <strong class="cc-action-service-name"></strong> service. <span class="cc-choose-action-label">Choose an action:</span>
 
-      <span class="cc-continue-button btn" style="display:none" jsclass="continue-choosing-trigger">Continue</span>
-    </div>    
-  </div>
-
-  <div class="cc-trigger-no-implementation container" style="display : none">
-    Ooops, this trigger has yet to be implemented ... <span class="label label-warning clickable-label" jsclass="choose-another-trigger">or choose another trigger</span>
-  </div>
-
-  <div class="cc-trigger-summary container" style="display:none; margin-top : 20px">
-    <span class="main-label">IF</span> When a new feed is available at <span class='cc-feed-address'></span> <span class="label label-warning clickable-label" jsclass="edit-trigger">edit trigger</span>
-  </div>
-
-  <div class="cc-continue-with-action cc-container container" style="display:none; margin-top : 20px">
-    <span class="main-label">THEN</span> <span class="label label-warning clickable-label" jsclass="choose-another-action-service">choose that</span>
-  </div>
-
-
-  <div class="cc-that-was-selected container" style="display:none; margin-top : 20px">
-    You have selected <strong class="cc-action-service-name"></strong> service. <span class="cc-choose-action-label">Choose an action:</span>
-
-    <span class="btn-group">
-      <span class="cc-choose-action-button btn dropdown-toggle" data-toggle="dropdown" jsclass="show-dropdown-selection">
-        Choose Action
-        <span class="caret"></span>
+      <span class="btn-group">
+        <span class="cc-choose-action-button btn dropdown-toggle" data-toggle="dropdown" jsclass="show-dropdown-selection">
+          Choose Action
+          <span class="caret"></span>
+        </span>
+        <ul class="cc-action-selection cc-dropdown dropdown-menu">
+          <li class="cc-no-selection">
+            <div class="cc-item service-selection" actionid="0" jsclass="choose-action">
+              <h3>No Trigger Available</h3>
+              <div>...</div>
+            </div>
+          </li> 
+          <li style="display:none">
+            <div class="cc-item service-selection" actionid="1" jsclass="choose-action">
+              <h3>Send Email To Someone</h3>
+              <div>e.g. send to yourself</div>
+            </div>
+          </li> 
+          <li style="display:none">
+            <div class="cc-item service-selection" actionid="2" jsclass="choose-action">
+              <h3>Remind me through email later</h3>
+              <div>set a schedule and remind me later</div>
+            </div>
+          </li>               
+        </ul>
       </span>
-      <ul class="cc-action-selection cc-dropdown dropdown-menu">
-        <li class="cc-no-selection">
-          <div class="cc-item service-selection" actionid="0" jsclass="choose-action">
-            <h3>No Trigger Available</h3>
-            <div>...</div>
+
+    </div>
+
+    <div class="cc-action-selected cc-container container" style="display:none; margin-top : 20px">
+      <span class="main-label then-sign">THEN</span> Send email to: <span class="label label-warning clickable-label" jsclass="choose-another-action">or choose another action</span>
+
+      <div style='margin : 10px 0px; padding-left : 70px'>
+        <form class="form-inline" jsclass="complete-form">
+          <div class="form-group">
+            <label for="exampleInputName2">Specify your email:</label>
+            <input type='text' name='email' placeholder='john.doe@email.com' jsclass='update-action-attributes' />
+            <button type="submit" style="display:none" jsclass="complete" class="cc-complete-button btn btn-default">Continue</button>
           </div>
-        </li> 
-        <li style="display:none">
-          <div class="cc-item service-selection" actionid="1" jsclass="choose-action">
-            <h3>Send Email To Someone</h3>
-            <div>e.g. send to yourself</div>
-          </div>
-        </li> 
-        <li style="display:none">
-          <div class="cc-item service-selection" actionid="2" jsclass="choose-action">
-            <h3>Remind me through email later</h3>
-            <div>set a schedule and remind me later</div>
-          </div>
-        </li>               
-      </ul>
-    </span>
+        </form>
+      </div>
+    </div>
 
+    <div class="cc-action-no-implementation container" style="display : none; margin-top : 20px; padding-left : 20px">
+      Ooops, this action has yet to be implemented ... <span class="label label-warning clickable-label" jsclass="choose-another-action">or choose another action</span>
+    </div>
+
+    <div class="cc-action-summary container" style="display:none; margin-top : 20px">
+      <span class="main-label then-sign">THEN</span> Send email to : <span class='cc-target-email-address'></span> <span class="cc-edit-action label label-warning clickable-label" jsclass="edit-action">edit action</span>
+    </div>
   </div>
 
-  <div class="cc-action-selected cc-container container" style="display:none; margin-top : 20px">
-    <span class="main-label">THEN</span> Send email to: <span class="label label-warning clickable-label" jsclass="choose-another-action">or choose another action</span>
-
-    <div style='margin : 10px 0px; padding-left : 70px'>
-      Specify your email
-      <input type='text' name='email' placeholder='john.doe@email.com' jsclass='update-action-attributes' /> 
-
-      <span class="cc-complete-button btn" style="display:none" jsclass="complete">Save</span>
-    </div>    
+  <div class='cc-final-section container' style="display:none; text-align : center">
+    <span jsclass="save-automation" class="btn btn-default">Save and Submit</button>    
   </div>
-
-  <div class="cc-action-no-implementation container" style="display : none">
-    Ooops, this action has yet to be implemented ... <span class="label label-warning clickable-label" jsclass="choose-another-action">or choose another action</span>
-  </div>
-
-  <div class="cc-action-summary container" style="display:none; margin-top : 20px">
-    <span class="main-label">THEN</span> Send email to : <span class='cc-target-email-address'></span> <span class="label label-warning clickable-label" jsclass="edit-action">edit action</span>
-  </div>
-
-
 
 </body>
 </html>

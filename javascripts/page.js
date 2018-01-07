@@ -19,6 +19,7 @@ $.defaultTracker.listen({
   "selectedTriggerService[track]" : function (oldValue, newValue) {
     // when this trigger service get selected, e.g. RSS
 
+    $('.cc-if-section').css('display', newValue ? "block" : "none");
     $('.cc-trigger-service-name').text(newValue.title);
     $('.cc-this-was-selected').css('display', newValue ? "block" : "none");
 
@@ -75,7 +76,9 @@ $.defaultTracker.listen({
   },
 
   "triggerAttributes[track]" : function (oldValue, newValue) {
-    $.defaultTracker.set("isValidTrigger", newValue.address);
+    var re = /^(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
+    var isValid = re.test((newValue.address).toString().toLowerCase());
+    $.defaultTracker.set("isValidTrigger", isValid);
   },
 
   "isValidTrigger[track]" : function (oldValue, newValue) {
@@ -127,6 +130,7 @@ $.defaultTracker.listen({
   "selectedActionService[track]" : function (oldValue, newValue) {
     // when this trigger service get selected, e.g. RSS
 
+    $('.cc-then-section').css('display', newValue ? "block" : "none");
     $('.cc-action-service-name').text(newValue.title);
     $('.cc-that-was-selected').css('display', newValue ? "block" : "none");
 
@@ -181,7 +185,9 @@ $.defaultTracker.listen({
   },
 
   "actionAttributes[track]" : function (oldValue, newValue) {
-    $.defaultTracker.set("isValidAction", newValue.email);
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var isValid = re.test((newValue.email).toString().toLowerCase());
+    $.defaultTracker.set("isValidAction", isValid);
   },
 
   "isValidAction[track]" : function (oldValue, newValue) {
@@ -196,15 +202,23 @@ $.defaultTracker.listen({
 
     if (newValue) {
       $('.cc-action-selected').css('display', 'none');    
-      $('.cc-action-no-implementation').css('display', 'none');          
+      $('.cc-action-no-implementation').css('display', 'none'); 
     } else {
       $.defaultTracker.check("selectedAction");
     }
+
+    $('.cc-final-section').css('display', newValue ? 'block' : 'none');         
   },
 
 });
 
 $.act({
+  "show-dropdown-selection[mousedown]" : function (el, ev) {
+    if (ev) {
+      ev.preventDefault();
+    }
+  },
+
   // make this a common dropdown function
   //
   "show-dropdown-selection[click]" : function (el, ev) {
@@ -212,29 +226,28 @@ $.act({
       return;
     }
 
-    el.parent().children('.cc-dropdown').addClass('on-show');
-    el.parent().children('.cc-dropdown').css({
-      display : 'block',
-      width : 400,
-      position : 'absolute',
-      top : 40,
-      left : 0,
-      maxHeight : 300
-    });
+    // we don't have to manipulate dropdown if we use dropdown js
+    //
+    var dropdownMenu = el.parent().children('.cc-dropdown');
+    dropdownMenu.addClass('on-show');
+  
+    // if ($(window).width() < 480) { // on mobile
+      dropdownMenu.appendTo(document.body);
+    // } 
 
     // hide the selection popup
-    var cancelShow = (function (el) {
+    var cancelShow = (function (el, dropdownMenu) {
       return function (ev) {
         if ($(ev.target).parents('.cc-dropdown:first')[0]) {
           return;        
         }
-        el.parent().children('.cc-dropdown').removeClass('on-show');
-        el.parent().children('.cc-dropdown').css({
+        dropdownMenu.removeClass('on-show');
+        dropdownMenu.css({
           display : 'none'
         });
         $(document).unbind('mousedown', cancelShow);
       };
-    })(el);
+    })(el, dropdownMenu);
     $(document).bind('mousedown', cancelShow);
   },
 
@@ -305,11 +318,17 @@ $.act({
   // proceed with choosing action services
   // 
   "continue-choosing-trigger[click]" : function (el, ev) {
+    if (ev) {
+      ev.preventDefault();
+    }
+
     if ($.defaultTracker.get("isValidTrigger")) {
       $.defaultTracker.set("isTriggerSceneDone", true);
       $.actor.getListener("show-dropdown-selection[click]")($('.cc-that-button'), ev);    
     }
   },
+
+  "continue-choosing-trigger-form[submit]" : "continue-choosing-trigger[click]",
 
   "edit-trigger[click]" : function () {
     $.defaultTracker.set("isTriggerSceneDone", false);
@@ -384,13 +403,34 @@ $.act({
   // complete and save
   // 
   "complete[click]" : function (el, ev) {
+    if (ev) {
+      ev.preventDefault();
+    }
+
     if ($.defaultTracker.get("isValidAction")) {
       $.defaultTracker.set("isActionSceneDone", true);
     }
   },
 
+  "complete-form[submit]" : "complete[click]",
+
   "edit-action[click]" : function () {
     $.defaultTracker.set("isActionSceneDone", false);
+  },
+
+  "save-automation[click]" : function () {
+    // save to server
+
+    $('.cc-header-question').css('display', 'none');
+    $('.cc-edit-action').css('display', 'none');
+    $('.cc-edit-trigger').css('display', 'none');
+    $('.cc-final-section').css('display', 'none');
+    $('.cc-this-was-selected').css('display', 'none');
+    $('.cc-that-was-selected').css('display', 'none');
+
+    $('.cc-if-section').addClass('finalized');
+    $('.cc-then-section').addClass('finalized');
+
   }
 
 });
