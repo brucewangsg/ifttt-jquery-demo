@@ -17,9 +17,11 @@ html, body {
   margin-right: 10px;
 }
 
-.btn-group .dropdown-menu {
+.dropdown-menu {
   overflow: scroll;
-  -webkit-overflow-scrolling : touch;
+  -webkit-overflow-scrolling : touch; 
+  -webkit-touch-action: auto;
+  touch-action: auto;
 }
 
 .dropdown-menu.on-show {
