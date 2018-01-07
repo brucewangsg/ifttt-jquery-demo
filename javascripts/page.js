@@ -383,7 +383,9 @@ $.act({
 
     if ($.defaultTracker.get("isValidTrigger")) {
       $.defaultTracker.set("isTriggerSceneDone", true);
-      $.actor.getListener("show-dropdown-selection[click]")($('.cc-that-button'), ev);    
+      if ($(window).width()>480) { // don't show the next dropdown selection if it's on mobile as the dropdown will cover the screen
+        $.actor.getListener("show-dropdown-selection[click]")($('.cc-that-button'), ev);    
+      }
     }
   },
 
