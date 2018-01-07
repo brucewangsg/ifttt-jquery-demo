@@ -162,6 +162,10 @@ html, body {
   margin-bottom: 10px;
 }
 
+.help-block.warning {
+  color : #900;
+}
+
 @media (max-width: 1000px) { 
   .container {
     margin-left : 20px;

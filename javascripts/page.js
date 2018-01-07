@@ -338,6 +338,34 @@ $.act({
     }
   },
 
+  "validate-url[blur]" : function (el, ev) {
+    var val = el.val();
+    var isValid = false;
+    if (val && val.length > 0) {
+      var re = /^(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
+      isValid = re.test((val).toString().toLowerCase());      
+    }
+    if (!isValid) {
+      el.nextAll('.cc-validation-message').css('display', 'block');
+    } else {
+      el.nextAll('.cc-validation-message').css('display', 'none');
+    }
+  },
+
+  "validate-email[blur]" : function (el, ev) {
+    var val = el.val();
+    var isValid = false;
+    if (val && val.length > 0) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      isValid = re.test((val).toString().toLowerCase());      
+    }
+    if (!isValid) {
+      el.nextAll('.cc-validation-message').css('display', 'block');
+    } else {
+      el.nextAll('.cc-validation-message').css('display', 'none');
+    }
+  },
+
   // set an alias
   "update-trigger-attributes[blur]" : "update-trigger-attributes[change]",
 
