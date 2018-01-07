@@ -229,10 +229,17 @@ $.act({
     // we don't have to manipulate dropdown if we use dropdown js
     //
     var dropdownMenu = el.parent().children('.cc-dropdown');
+    if (!dropdownMenu[0]) {
+      return;
+    }
+
+    var originalParent = dropdownMenu.parent();
     dropdownMenu.addClass('on-show');
   
     if ($(window).width() < 480) { // on mobile
-      dropdownMenu.appendTo(document.body);
+      setTimeout(function () {
+        dropdownMenu.appendTo(document.body);
+      }, 100);
     } 
 
     // hide the selection popup
@@ -241,15 +248,13 @@ $.act({
         if ($(ev.target).parents('.cc-dropdown:first')[0]) {
           return;        
         }
-        dropdownMenu.removeClass('on-show');
-        dropdownMenu.css({
-          display : 'none'
-        });
-        dropdownMenu.insertAfter(el);
-        
         $(document).unbind('mousedown', cancelShow);
+
+        dropdownMenu.removeClass('on-show');
+        dropdownMenu.appendTo(originalParent);
       };
     })(el, dropdownMenu);
+
     $(document).bind('mousedown', cancelShow);
   },
 

@@ -23,7 +23,7 @@ html, body {
 }
 
 .dropdown-menu.on-show {
-  display : block;
+  display : block !important;
   width : 400px;
   position : absolute;
   top : 40px;
@@ -34,7 +34,7 @@ html, body {
 @media (max-width: 480px) { 
 
   .dropdown-menu.on-show {
-    display : block;
+    display : block !important;
     width : 100%;
     position : absolute;
     top : 0px;
