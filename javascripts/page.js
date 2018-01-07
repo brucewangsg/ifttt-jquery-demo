@@ -96,6 +96,7 @@ $.defaultTracker.listen({
     $('.cc-trigger-summary').css('display', newValue ? 'block' : 'none');
 
     if (newValue) {
+      $('.cc-then-section').css('display', newValue ? "block" : "none");
       $('.cc-trigger-selected').css('display', 'none');    
       $('.cc-trigger-no-implementation').css('display', 'none');          
     } else {
