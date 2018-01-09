@@ -1,14 +1,18 @@
-# IFTTT applet selector demo
+# IFTTT Applet Selector Demo
 
 This is an attempt to create an applet that shows selection of services as a trigger. If the trigger is satisfied, it will lead to the execution of an action specified by users. In this demo, we will only try to implement the applet UI.
 
-## Setup
+## The Approach
 
 This is the wireframe to illustrate what we want to achieve [`Wireframe`](https://wireframeapp.io/app/preview/1a428501)
 
-In this attempt, I was using a simple jQuery app to handle all the user interactions, events, display. The layout, look and feel was done up with the help of Twitter bootstrap CSS.
+In this attempt, I used a simple jQuery app to handle all the user interactions, events, display. The layout, look and feel was done up with the help of Twitter bootstrap CSS.
 
-To keep track of states, I was using a simple KVO listener that handle callbacks when states changed.
+To keep track of states, I used a simple KVO listener that handle callbacks when the state have change.
+
+## Demo
+
+Check out [the demo here](http://ifttt-jquery-demo.actionnn.com/)
 
 ## Conclusion
 
