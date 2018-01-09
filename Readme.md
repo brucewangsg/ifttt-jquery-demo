@@ -8,7 +8,7 @@ This is the wireframe to illustrate what we want to achieve [`Wireframe`](https:
 
 In this attempt, I used a simple jQuery app to handle all the user interactions, events, display. The layout, look and feel was done up with the help of Twitter bootstrap CSS.
 
-To keep track of states, I used a simple KVO listener that handle callbacks when the state have change.
+To keep track of states, I used a simple KVO listener that handle callbacks when the state has changed.
 
 ## Demo
 
