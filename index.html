@@ -14,6 +14,19 @@
   <script type="text/javascript" src='/javascripts/kvo.tracker.js'></script>
   <script type="text/javascript" src='/javascripts/action.js'></script>
   <script type="text/javascript" src='/javascripts/page.js'></script>
+
+  <script>
+    if ((window.location+'').indexOf('github.io') >= 0) {
+      document.write('<link href="/ifttt-jquery-demo/stylesheets/bootstrap.min.css" rel="stylesheet"/>');
+      document.write('<link href="/ifttt-jquery-demo/stylesheets/bootstrap-responsive.min.css" rel="stylesheet"/>');
+      var scripts = ["/ifttt-jquery-demo/javascripts/mock.api.js", "/ifttt-jquery-demo/javascripts/kvo.tracker.js", "/ifttt-jquery-demo/javascripts/action.js", "/ifttt-jquery-demo/javascripts/page.js"];
+      for (var i = 0, len = scripts.length; i < len; i++) {
+        var script = document.createElement('script');
+        script.src = scripts[i];
+        document.head.appendChild(script);
+      }
+    }
+  </script>
 </head>
 <body>
 
